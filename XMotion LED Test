@@ -1,0 +1,9 @@
+int Led1 = 8; //Using LED pin D8, can also use D9
+void setup() {
+  pinMode(UserLed1, OUTPUT); // Led as output element
+}
+
+void loop() {
+  digitalWrite(UserLed1, HIGH);delay(500);// turn on Led1, High Statement
+  digitalWrite(UserLed1, LOW);delay(500); // turn off Led1, Low Statement
+}
