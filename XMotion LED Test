@@ -1,3 +1,5 @@
+#include <xmotion.h>
+
 int Led1 = 8; //Using LED pin D8, can also use D9
 void setup() {
   pinMode(UserLed1, OUTPUT); // Led as output element
