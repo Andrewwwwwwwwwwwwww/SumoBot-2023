@@ -1,0 +1,43 @@
+#include <xmotion.h>
+int S1=A5;
+int S2=4;
+int S3=2;
+int S4=1;
+int S5=0;
+
+int value1; 
+int value2; 
+int value3; 
+int value4; 
+int value5; 
+
+void setup() {
+   pinMode(S1, INPUT);
+   pinMode(S2, INPUT);
+   pinMode(S3, INPUT);
+   pinMode(S4, INPUT);
+   pinMode(S5, INPUT);
+   
+   Serial.begin(9600); 
+}
+
+void loop() {
+  value1=digitalRead(S1);
+  value1=digitalRead(S1);
+  value1=digitalRead(S1);
+  value1=digitalRead(S1);
+  value1=digitalRead(S1);
+  
+  Serial.print("Sensor1 Value: ");
+  Serial.println(value1);
+  Serial.print("Sensor2 Value: ");
+  Serial.println(value2);
+  Serial.print("Sensor3 Value: ");
+  Serial.println(value3);
+  Serial.print("Sensor4 Value: ");
+  Serial.println(value4);
+  Serial.print("Sensor5 Value: ");
+  Serial.println(value5);
+  Serial.println(" ");
+  delay(1000); 
+  }
