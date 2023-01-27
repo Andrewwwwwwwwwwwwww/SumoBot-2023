@@ -1,4 +1,5 @@
 #include <xmotion.h>
+
 int S1=A5;
 int S2=4;
 int S3=2;
@@ -23,10 +24,10 @@ void setup() {
 
 void loop() {
   value1=digitalRead(S1);
-  value1=digitalRead(S1);
-  value1=digitalRead(S1);
-  value1=digitalRead(S1);
-  value1=digitalRead(S1);
+  value2=digitalRead(S2);
+  value3=digitalRead(S3);
+  value4=digitalRead(S4);
+  value5=digitalRead(S5);
   
   Serial.print("Sensor1 Value: ");
   Serial.println(value1);
