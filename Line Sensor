@@ -1,0 +1,37 @@
+int ML1=A1; //Micro Line Sensor Connected to Analog 1
+int value1; //We declared some variable for storing ML1 output
+int ML2=A2; //Micro Line Sensor Connected to Analog 1
+int value2; //We declared some variable for storing ML1 output
+int ML3=A3; //Micro Line Sensor Connected to Analog 1
+int value3; //We declared some variable for storing ML1 output
+
+int lineThreshhold = 100;
+
+void setup() {
+   Serial.begin(9600);
+}
+
+
+
+void loop() {
+  value1=analogRead(ML1); // It will be read between 0 to 1023 by Analog Reading
+  value2=analogRead(ML2); // It will be read between 0 to 1023 by Analog Reading
+  value3=analogRead(ML1); // It will be read between 0 to 1023 by Analog Reading
+  Serial.print("Sensor Value: "); //It will write this words to serial monitor
+  String s="-";
+  Serial.print(value1+s+value2+s+ value3); //Controller will send serial monitor to raw value.
+  Serial.println();
+//  Serial.print(" ");
+//  Serial.print(value2); //Controller will send serial monitor to raw value.
+//  Serial.print(" ");
+//  Serial.println(value3); //Controller will send serial monitor to raw value.
+  delay(100);  // we are adding 100 ms delay for delay at readings. 
+  }
+
+bool lineCheck(sensor_number){
+  if ((analogRead(sensor_number)) <= lineThreshhold){
+    return true; 
+  } else {
+    return false;
+  }
+}
