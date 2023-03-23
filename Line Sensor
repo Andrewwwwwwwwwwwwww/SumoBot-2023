@@ -1,13 +1,14 @@
-int ML1=A1;
+int ML1=A4;
 int value1;
 int ML2=A2;
 int value2;
-int ML3=A3;
+int ML3=A1;
 int value3;
 
-int QTI = [ML1, ML2, ML3];
+int QTI[] = {A1, A2, A3};
+int QTIvalue[] = {0, 0, 0};
  
-int lineThreshhold = 100;
+int lineThreshhold = 200;
 
 void setup() {
    Serial.begin(9600);
@@ -16,22 +17,24 @@ void setup() {
 
 
 void loop() {
-  value1=analogRead(ML1); // It will be read between 0 to 1023 by Analog Reading
-  value2=analogRead(ML2); 
-  value3=analogRead(ML1);
-  Serial.print("Sensor Value: ");
-  String s="-";
-  Serial.print(value1+s+value2+s+ value3); 
-  Serial.println();
-  delay(100);  
+  lineCheck();
+  //Serial.print(QTIvalue[0]);
+  //Serial.print(QTIvalue[1]);
+  Serial.println(QTIvalue[2]);
   }
 
-bool lineCheck(sensor_list){
+
+
+void lineCheck(){
   for (int i = 0; i < 3; i++){
-    if ((analogRead(sensor_list[i])) <= lineThreshhold){
-      return true; 
+    if ((analogRead(QTI[i])) <= lineThreshhold){
+      QTIvalue[i] = 1;
+      //Serial.print(analogRead(QTI[i]));
     } else {
-      return false;
+      QTIvalue[i] = 0;
     }
+    //Serial.print(i);
+  }
+}
   }
 }
