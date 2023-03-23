@@ -1,4 +1,11 @@
-int QTI[] = {A1, A2, A4};
+int ML1=A4;
+int value1;
+int ML2=A2;
+int value2;
+int ML3=A1;
+int value3;
+
+int QTI[] = {A4, A2, A1};
 int QTIvalue[] = {0, 0, 0};
  
 int lineThreshhold = 200;
@@ -11,10 +18,9 @@ void setup() {
 
 void loop() {
   lineCheck();
-  //Serial.print(QTIvalue[0]);
-  //Serial.print(QTIvalue[1]);
+  Serial.print(QTIvalue[0]);
+  Serial.print(QTIvalue[1]);
   Serial.println(QTIvalue[2]);
-  Serial.println(analogRead(QTI[2]));
 
 }
 
