@@ -38,7 +38,7 @@ void lineCheck(){
   for (int i = 0; i < 3; i++){
     if ((analogRead(QTI[i])) <= lineThreshhold){
       QTIvalue[i] = 1;
-      //Serial.print(analogRead(QTI[i]));
+      //Serial.print(analogRead(QTI[i])); //gives its raw data
     } else {
       QTIvalue[i] = 0;
     }
