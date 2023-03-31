@@ -22,22 +22,11 @@ void loop() {
   QTICheck();
   IRCheck();
   
-//  Serial.print(QTIvalue[0]);
-//  Serial.print(QTIvalue[1]);
-//  Serial.println(QTIvalue[2]);
-
-//  Serial.print(IRvalue[0]);
-//  Serial.print(IRvalue[1]);
-//  Serial.print(IRvalue[2]);
-//  Serial.print(IRvalue[3]);
-//  Serial.println(IRvalue[4]);
-
   if (EdgeDetected()){
-    Movement();
+    Movement(QTIvalue[0],QTIvalue[1],QTIvalue[2]);
   } else {
-    Serial.println("nothing detected");
+    xmotion.Forward(100,3);
   }
-
 }
 
 
@@ -63,25 +52,20 @@ bool EdgeDetected(){
 }
 
 
-void Movement(){
-  switch(QTIvalue[0],QTIvalue[1],QTIvalue[2]){
-    case(1,0,0):
-      xmotion.Right0(100,200);
-      break;
-    case(1,0,1):
-      xmotion.Backward(100,150);
-      xmotion.Right0(100,300);
-      break;
-    case(1,1,1):
-      xmotion.Backward(100,150);
-      xmotion.Right0(100,300);
-      break;
-    case(0,0,1):
-      xmotion.Left0(100,200);
-      break;
-
-    default:
-      break;
+void Movement(int left_line_sensor, int middle_line_sensor, int right_line_sensor){
+  if ((left_line_sensor == 1) && (middle_line_sensor == 1) && (right_line_sensor == 1)){
+    xmotion.Backward(100,200);
+    xmotion.Right0(100,300);
+  }
+  else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 1)){
+    xmotion.Backward(100,100);
+    xmotion.Right0(100,300);
+  }
+  else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 0)){
+    xmotion.Right0(100,250);
+  }
+  else if ((left_line_sensor == 0) && (middle_line_sensor == 0) && (right_line_sensor == 1)){
+    xmotion.Left0(100,250);
   }
 }
 
