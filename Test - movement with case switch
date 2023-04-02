@@ -3,7 +3,7 @@
 int QTI[] = {A4, A2, A1};
 int QTIvalue[] = {0, 0, 0}; //0 = black, 1 = white
 
-int lineThreshhold = 200;
+#define lineThreshhold 200
 
 
 int IR[] = {A5, 4, 2, 1, 0};
@@ -55,17 +55,17 @@ bool EdgeDetected(){
 void Movement(int left_line_sensor, int middle_line_sensor, int right_line_sensor){
   if ((left_line_sensor == 1) && (middle_line_sensor == 1) && (right_line_sensor == 1)){
     xmotion.Backward(100,200);
-    xmotion.Right0(100,300);
+    xmotion.Right0(100,500);
   }
   else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 1)){
     xmotion.Backward(100,100);
-    xmotion.Right0(100,300);
+    xmotion.Right0(100,500);
   }
   else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 0)){
-    xmotion.Right0(100,250);
+    xmotion.Right0(100,350);
   }
   else if ((left_line_sensor == 0) && (middle_line_sensor == 0) && (right_line_sensor == 1)){
-    xmotion.Left0(100,250);
+    xmotion.Left0(100,350);
   }
 }
 
