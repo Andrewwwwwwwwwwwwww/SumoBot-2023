@@ -1,73 +1,82 @@
-//Motors 12V 500 RPM, LiPo Battery 3S 1000 Mah
-// Opponent Sensors give 0 when see the obstacle.
-#include <xmotion.h> //Included XMotion Library
-int RightSensor = 0; //Right Opponent Sensor Pin
-int RightDiagonalSensor = 1; //Right Diagonal Opppnent Sensor Pin
-int MiddleSensor = 2; //Middle Oppoent Sensor Pin
-int LeftDiagonalSensor = 4; //Left Diagonal Opponent Sensor Pin
-int LeftSensor = A5; //Left Opponent Sensor Pin
+#include <xmotion.h>
 
-int LeftLine = A4; //Left Line Sensor Pin
-int RightLine = A1; //Right Line Sensor Pin
-int Start = 10; //Start Button Pin
+int QTI[] = {A4, A2, A1};
+int QTIvalue[] = {0, 0, 0}; //0 = black, 1 = white
 
-int Led1 = 8;
+#define lineThreshhold 200
 
+
+int IR[] = {A5, 4, 2, 1, 0};
+int IRvalue[] = {0, 0, 0, 0, 0,}; //might be 00001 or 10000 since the robots start next to each other
 int LastValue = 0;
 
 void setup() {
-  xmotion.StopMotors(100); //Stopping motors, in case of pin open output.
-  xmotion.ToggleLeds(100); // Blink Delay Function for blinking 2 User Leds
-  pinMode(Led1, OUTPUT);
-  pinMode(RightSensor, INPUT); // We declare Digital Inputs and outputs.
-  pinMode(RightDiagonalSensor, INPUT);
-  pinMode(MiddleSensor, INPUT);
-  pinMode(LeftDiagonalSensor, INPUT);
-  pinMode(LeftSensor, INPUT);
-  pinMode(Start, INPUT);
-  Serial.begin(9600);
+   Serial.begin(9600);
+   pinMode(A4,INPUT);pinMode(A2,INPUT);pinMode(A1,INPUT); //QTI pins
+   pinMode(A5, INPUT);pinMode(4, INPUT);pinMode(2, INPUT);pinMode(1, INPUT);pinMode(0, INPUT); //IR pins
 }
 
-void loop() {
-  while (digitalRead(Start) == 0) // Button push is waited. When Button is pushed, it gives 1 value.
-  {
-    if (digitalRead(LeftSensor) == 0 || digitalRead(MiddleSensor) == 0 || digitalRead(RightSensor) == 0 || digitalRead(RightDiagonalSensor) == 0 || digitalRead(LeftDiagonalSensor) == 0)
-    {
-      digitalWrite(Led1, HIGH);
-    } else {
-      digitalWrite(Led1, LOW);
-    }
-    xmotion.UserLed2(80); // Blink User Led 2 80ms
-  }
-  xmotion.CounterLeds(1000, 5);
-  while (1) {
-    if (analogRead(LeftLine) < 300 && analogRead(RightLine) > 300 ) //Left Line Sensor Saw the Line
-    {
-      delay(3);
-      xmotion.Backward(100, 100); //Backward %100 speed, 100 ms retreat.
-      xmotion.Right0(100, 180); //Right Turning %100 speed, 200ms duration.
-      
-    }else if (analogRead(LeftLine) > 300 && analogRead(RightLine) < 300 ) //Right Line Sensor Saw the Line
-    {
-      delay(3);
-      if (analogRead(RightLine) < 300 ) //Right Line Sensor Saw the Line
-    {
-      xmotion.Backward(100, 100); //Backward %100 speed, 100 ms retreat.
-      xmotion.Left0(100, 180); //Left Turning %100 speed, 200ms duration.
-    } 
-    }else if (analogRead(LeftLine) < 300 && analogRead(RightLine) < 300 ) //Both Sensor Saw the Line
-    {
-      delay(3);
-      xmotion.Backward(100, 200); //Backward %100 speed, 200 ms retreat.
-      xmotion.Right0(100, 250); //Left Turning %100 speed, 200ms duration.
-//      if (analogRead(LeftLine) < 300 && analogRead(RightLine) < 300 ) //Both Sensor Saw the Line
-//    {
-//      xmotion.Backward(100, 200); //Backward %100 speed, 200 ms retreat.
-//      xmotion.Right0(100, 250); //Left Turning %100 speed, 200ms duration.
-//    }
-    }
 
-    else if (digitalRead(MiddleSensor) == 1 ) //Middle Sensor see the opponent (0 Not Seen, 1 Seen)
+
+void loop() {
+  QTICheck();
+  IRCheck();
+  
+  if (EdgeDetected()){
+    Movement(QTIvalue[0],QTIvalue[1],QTIvalue[2]);
+  } else {
+    OpponentTracking(IRvalue[0], IRvalue[1], IRvalue[2], IRvalue[3], IRvalue[4]);
+  }
+}
+
+
+
+void QTICheck(){
+  for (int i = 0; i < 3; i++){
+    if ((analogRead(QTI[i])) <= lineThreshhold){
+      QTIvalue[i] = 1;
+      //Serial.print(analogRead(QTI[i])); //gives its raw data
+    } else {
+      QTIvalue[i] = 0;
+    }
+    //Serial.print(i);
+  }
+}
+
+bool EdgeDetected(){
+  if ((QTIvalue[0] == 1)||(QTIvalue[1] == 1)||(QTIvalue[2] == 1)){ //i can't find the "or"(two vertical bars) (cry emoji)
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+void Movement(int left_line_sensor, int middle_line_sensor, int right_line_sensor){
+  if ((left_line_sensor == 1) && (middle_line_sensor == 1) && (right_line_sensor == 1)){
+    xmotion.Backward(100,200);
+    xmotion.Right0(100,500);
+  }
+  else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 1)){
+    xmotion.Backward(100,100);
+    xmotion.Right0(100,500);
+  }
+  else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 0)){
+    xmotion.Right0(100,350);
+  }
+  else if ((left_line_sensor == 0) && (middle_line_sensor == 0) && (right_line_sensor == 1)){
+    xmotion.Left0(100,350);
+  }
+}
+
+void IRCheck(){
+  for (int i = 0; i < 5; i++){
+    IRvalue[i] = digitalRead(IR[i]);
+    }
+}
+
+void OpponentTracking(int LeftSensor, int LeftDiagonalSensor, int MiddleSensor, int RightDiagonalSensor, int RightSensor){
+    if (digitalRead(MiddleSensor) == 1 ) //Middle Sensor see the opponent (0 Not Seen, 1 Seen)
     {
       xmotion.Forward(100, 1); // Both Motors Forward %100 Speed, 1 Milliseconds
       LastValue = 0;
@@ -98,5 +107,4 @@ void loop() {
     } else if (LastValue == 2) { //Left or Left Diagonal Sensor saw the opponent.
       xmotion.Left0(30, 1);
     }
-  }
 }
