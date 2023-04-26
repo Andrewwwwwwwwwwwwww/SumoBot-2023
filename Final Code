@@ -21,11 +21,15 @@ void setup() {
 void loop() {
   QTICheck();
   IRCheck();
-  
+  xmotion.Forward(30,200);
+  xmotion.Backward(100,30);
+  xmotion.Right0(100,190);xmotion.Left0(100,20);
+  xmotion.StopMotors(10000);
   if (EdgeDetected()){
     Movement(QTIvalue[0],QTIvalue[1],QTIvalue[2]);
   } else {
-    OpponentTracking(IRvalue[0], IRvalue[1], IRvalue[2], IRvalue[3], IRvalue[4]);
+    xmotion.Forward(30,1);
+    //OpponentTracking(IR[0], IR[1], IR[2], IR[3], IR[4]);
   }
 }
 
@@ -44,7 +48,8 @@ void QTICheck(){
 }
 
 bool EdgeDetected(){
-  if ((QTIvalue[0] == 1)||(QTIvalue[1] == 1)||(QTIvalue[2] == 1)){ //i can't find the "or"(two vertical bars) (cry emoji)
+  if ((QTIvalue[0] == 1)||(QTIvalue[1] == 1)||(QTIvalue[2] == 1)){ 
+    xmotion.Backward(100,30);
     return true;
   } else {
     return false;
@@ -54,18 +59,24 @@ bool EdgeDetected(){
 
 void Movement(int left_line_sensor, int middle_line_sensor, int right_line_sensor){
   if ((left_line_sensor == 1) && (middle_line_sensor == 1) && (right_line_sensor == 1)){
-    xmotion.Backward(100,200);
-    xmotion.Right0(100,500);
+    xmotion.Backward(100,80);xmotion.Forward(20,20);
+    xmotion.Right0(100,160);xmotion.Left0(20,10); //does an approx. 180 degrees
   }
   else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 1)){
-    xmotion.Backward(100,100);
-    xmotion.Right0(100,500);
+    xmotion.Backward(100,50);xmotion.Forward(20,20);
+    xmotion.Right0(100,160);xmotion.Left0(20,10); //does an approx. 180 degrees
   }
   else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 0)){
-    xmotion.Right0(100,350);
+    xmotion.Right0(100,190);xmotion.Left0(100,20);
   }
   else if ((left_line_sensor == 0) && (middle_line_sensor == 0) && (right_line_sensor == 1)){
-    xmotion.Left0(100,350);
+    xmotion.Left0(100,190);xmotion.Right0(100,20);
+  }
+  else if ((left_line_sensor == 1) && (middle_line_sensor == 1) && (right_line_sensor == 0)){
+    xmotion.Right0(100,190);xmotion.Left0(100,20);
+  }
+  else if ((left_line_sensor == 0) && (middle_line_sensor == 1) && (right_line_sensor == 1)){
+    xmotion.Left0(100,190);xmotion.Right0(100,20);
   }
 }
 
