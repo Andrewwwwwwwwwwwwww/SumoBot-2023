@@ -8,7 +8,7 @@ int QTIvalue[] = {0, 0, 0}; //0 = black, 1 = white
 #define lineThreshhold 200
 
 int IR[] = {A5, 4, 2, 1, 0};
-int IRvalue[] = {0, 0, 0, 0, 0,}; //might be 00001 or 10000 since the robots start next to each other
+int IRvalue[] = {1, 0, 0, 0, 0}; //might be 00001 or 10000 since the robots start next to each other
 int LastValue = 0;
 
 long currentTime;
@@ -45,9 +45,9 @@ void loop() {
   EdgeDetected();
   Movement(QTIvalue[0],QTIvalue[1],QTIvalue[2]);
   if (QTIvalue[0] == 0 && QTIvalue[1] == 0 && QTIvalue[2] == 0){
-    xmotion.Forward(30,1);
+    //xmotion.Forward(30,1);
+    OpponentTracking(IRvalue[0], IRvalue[1], IRvalue[2], IRvalue[3], IRvalue[4]);
  }
-    //OpponentTracking(IRvalue[0], IRvalue[1], IRvalue[2], IRvalue[3], IRvalue[4]);
   }
 }
 
@@ -78,7 +78,7 @@ void QTICheck(){
 void EdgeDetected(){
   if ((QTIvalue[0] == 1)||(QTIvalue[1] == 1)||(QTIvalue[2] == 1)){ 
     TOL = millis();
-    xmotion.Backward(100,30);
+    xmotion.Backward(100,90);
   }
 }
 
@@ -86,11 +86,11 @@ void EdgeDetected(){
 void Movement(int left_line_sensor, int middle_line_sensor, int right_line_sensor){
   if (timePassed == true){
     if ((left_line_sensor == 1) && (middle_line_sensor == 1) && (right_line_sensor == 1)){
-      xmotion.Backward(100,80);xmotion.Forward(20,20);
+      xmotion.Backward(100,100);xmotion.Forward(20,20);
       xmotion.Right0(100,160);xmotion.Left0(20,10); //does an approx. 180 degrees
     }
     else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 1)){
-      xmotion.Backward(100,50);xmotion.Forward(20,20);
+      xmotion.Backward(100,100);xmotion.Forward(20,20);
       xmotion.Right0(100,160);xmotion.Left0(20,10); //does an approx. 180 degrees
     }
     else if ((left_line_sensor == 1) && (middle_line_sensor == 0) && (right_line_sensor == 0)){
@@ -106,7 +106,7 @@ void Movement(int left_line_sensor, int middle_line_sensor, int right_line_senso
       xmotion.Left0(100,190);xmotion.Right0(100,20);
     }
     else if ((left_line_sensor == 0) && (middle_line_sensor == 1) && (right_line_sensor == 0)){
-      xmotion.Backward(100,50);xmotion.Forward(100,20);
+      xmotion.Backward(100,10 0);xmotion.Forward(100,20);
       xmotion.Right0(100,160);
     }
     xmotion.StopMotors(1);
@@ -126,7 +126,7 @@ void IRCheck(){
 void OpponentTracking(int LeftSensor, int LeftDiagonalSensor, int MiddleSensor, int RightDiagonalSensor, int RightSensor){
     if (MiddleSensor == 1 ) //Middle Sensor see the opponent (0 Not Seen, 1 Seen)
     {
-      xmotion.Forward(100, 1); // Both Motors Forward %100 Speed, 1 Milliseconds
+      xmotion.Forward(100, 2); // Both Motors Forward %100 Speed, 1 Milliseconds
       LastValue = 0;
     }
     else if (RightSensor == 1) //Right Sensor see the opponent
