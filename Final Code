@@ -106,7 +106,7 @@ void Movement(int left_line_sensor, int middle_line_sensor, int right_line_senso
       xmotion.Left0(100,190);xmotion.Right0(100,20);
     }
     else if ((left_line_sensor == 0) && (middle_line_sensor == 1) && (right_line_sensor == 0)){
-      xmotion.Backward(100,10 0);xmotion.Forward(100,20);
+      xmotion.Backward(100,100);xmotion.Forward(100,20);
       xmotion.Right0(100,160);
     }
     xmotion.StopMotors(1);
@@ -131,22 +131,22 @@ void OpponentTracking(int LeftSensor, int LeftDiagonalSensor, int MiddleSensor, 
     }
     else if (RightSensor == 1) //Right Sensor see the opponent
     {
-      xmotion.Right0(70, 1); // Right Turn %70 Power 1 Milliseconds
+      xmotion.Right0(90, 5); // Right Turn %70 Power 1 Milliseconds
       LastValue = 1;
     }
     else if (LeftSensor == 1) //Left Sensor see the opponent
     {
-      xmotion.Left0(70, 1); // Left Turn %70 Power 1 Milliseconds
+      xmotion.Left0(90, 5); // Left Turn %70 Power 1 Milliseconds
       LastValue = 2;
     }
     else if (LeftDiagonalSensor == 1) //Left Diagonal Sensor see the opponent
     {
-      xmotion.ArcTurn(20, 70, 1); // Left Motor %20 Speed, Right %70 Speed 1 ms.
+      xmotion.ArcTurn(22, 77, 1); // Left Motor %20 Speed, Right %70 Speed 1 ms.
       LastValue = 2;
     }
     else if (RightDiagonalSensor == 1) //Right Diagonal Sensor see the opponent
     {
-      xmotion.ArcTurn(70, 20, 1); // Left Motor %70 Speed, Right %20 Speed 1 ms.
+      xmotion.ArcTurn(77, 22, 1); // Left Motor %70 Speed, Right %20 Speed 1 ms.
       LastValue = 1;
     } else if (LastValue == 0) { //Middle Sensor Saw the opponent
       xmotion.Forward(35, 1);
