@@ -1,24 +1,26 @@
 #include <xmotion.h>
 
-int Start = 10;
+//i recently changed lots of the int datatype to uint8/32 and havent tested....
+
+#define Start = 10; //pin for start
 
 int QTI[] = {A4, A2, A1};
-int QTIvalue[] = {0, 0, 0}; //0 = black, 1 = white
+uint8_t QTIvalue[] = {0, 0, 0}; //0 = black, 1 = white
 
 #define lineThreshhold 200
 
-int IR[] = {A5, 4, 2, 1, 0};
-int IRvalue[] = {0, 0, 0, 0, 1}; //might be 00001 or 10000 since the robots start next to each other
-int LastValue = 0;
+uint8_t IR[] = {A5, 4, 2, 1, 0}; //pinouts
+uint8_t IRvalue[] = {0, 0, 0, 0, 1}; //might be 00001 or 10000 since the robots start next to each other
+uint8_t LastValue = 0;
 
-long currentTime;
-long TOL = 0; //TimeOfLastLineDetection
+uint32_t currentTime;
+uint32_t TOL = 0; //TimeOfLastLineDetection
 #define timeBetweenLineRecognition 250
 bool timePassed = true; //has the timeBetweenLineRecognition passed since last line was detected?
 
-#define DipSwitch1 5 // Dipswitch 1 tied to Digital 5, controlls initial movement
+#define DipSwitch1 5 // Dipswitch 1 tied to Digital 5, controls initial movement
 #define DipSwitch2 6 // Dipswitch 2 tied to Digital 6, nothing at this stage
-#define DipSwitch3 7 // Dipswitch 3 tied to Digital 7, controlls timer (plan)
+#define DipSwitch3 7 // Dipswitch 3 tied to Digital 7, controls timer (plan)
 
 void setup() {
    pinMode(DipSwitch1, INPUT); //Dipswitch 1 Declared as Input
@@ -32,7 +34,7 @@ void setup() {
 void loop() {
   while (digitalRead(Start) == 0) // Button push is waited. When Button is pushed, it gives 1 value.
   {
-    xmotion.UserLed2(50); // Blink User Led 2 80ms
+    xmotion.UserLed2(50); // Blink User Led 2 50ms
   }
   xmotion.CounterLeds(990, 5); //4950ms timer
   if (digitalRead(DipSwitch1) == 0){
