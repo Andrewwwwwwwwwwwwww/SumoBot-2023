@@ -23,8 +23,8 @@ bool timePassed = true; //has the timeBetweenLineRecognition passed since last l
 #define DipSwitch3 7 // Dipswitch 3 tied to Digital 7, controls timer (plan)
 
 void setup() {
-   pinMode(DipSwitch1, INPUT); //Dipswitch 1 Declared as Input
-   digitalWrite(DipSwitch1, HIGH); 
+   pinMode(DipSwitch1, INPUT);pinMode(DipSwitch2, INPUT);pinMode(DipSwitch3, INPUT); //Dipswitch 1,2,3 Declared as Input
+   digitalWrite(DipSwitch1, HIGH); //############ i honestly forgot what this is..... ######################################################################################
    pinMode(A4,INPUT);pinMode(A2,INPUT);pinMode(A1,INPUT); //QTI pins
    pinMode(A5, INPUT);pinMode(4, INPUT);pinMode(2, INPUT);pinMode(1, INPUT);pinMode(0, INPUT); //IR pins
 }
